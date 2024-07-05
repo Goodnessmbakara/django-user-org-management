@@ -7,6 +7,41 @@ from .models import Organisation
 
 User = get_user_model()
 
+class TokenGenerationTests(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            firstName="John",
+            lastName="Doe",
+            email="john.doe@example.com",
+            password="password123",
+            phone="1234567890"
+        )
+        self.organisation = Organisation.objects.create(
+            name="John's Organisation",
+            description="Default organisation for John"
+        )
+        self.user.organisations.add(self.organisation)
+
+    def test_token_generation(self):
+        refresh = RefreshToken.for_user(self.user)
+        self.assertIn('access', refresh)
+        self.assertIn('refresh', refresh)
+        self.assertEqual(refresh['user_id'], self.user.id)
+
+    def test_token_expiry(self):
+        refresh = RefreshToken.for_user(self.user)
+        access_token = refresh.access_token
+
+        # Ensure the token is valid before expiry
+        response = self.client.get(reverse('user-detail', args=[self.user.id]), HTTP_AUTHORIZATION=f'Bearer {access_token}')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Mock the token expiration by setting the expiration time in the past
+        from datetime import timedelta
+        access_token.set_exp(lifetime=timedelta(seconds=0))
+        response = self.client.get(reverse('user-detail', args=[self.user.id]), HTTP_AUTHORIZATION=f'Bearer {access_token}')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
 class UserRegistrationTests(APITestCase):
     def test_user_registration(self):
         url = reverse('register')
