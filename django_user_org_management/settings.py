@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INTERNAL_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,6 +43,16 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
+
+EXTERNAL_APPS = [
+    'drf_yasg',
+]
+
+USER_DEFINED_APPS = [
+    
+]
+
+INSTALLED_APPS = INTERNAL_APPS + EXTERNAL_APPS + USER_DEFINED_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
