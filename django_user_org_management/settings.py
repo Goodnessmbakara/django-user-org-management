@@ -16,6 +16,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 import os
 
+import dj_database_url
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -90,7 +91,7 @@ WSGI_APPLICATION = "django_user_org_management.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
+DATABASE_URL = 'postgresql://mydatabaseuser:7xT3I2bnCVHL1epqty6sXLimBJCn2GvT@dpg-cq45uceehbks73b7feqg-a.oregon-postgres.render.com/mydatabase_eocc'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -101,7 +102,9 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
     }
 }
-
+DATABASES = {
+    'default': dj_database_url.parse(DATABASE_URL)
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
