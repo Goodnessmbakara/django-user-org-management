@@ -1,5 +1,5 @@
 from django.db import models
-
+import uuid
 
 class Organisation(models.Model):
     org_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
