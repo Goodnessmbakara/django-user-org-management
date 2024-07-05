@@ -1,7 +1,3 @@
-Sure! Here is the `README.md` content for your project:
-
----
-
 # User and Organisation Management System
 
 This project is a User and Organisation Management System built using Django and Django REST Framework. The application allows users to register, log in, and manage organisations. Each user can belong to multiple organisations, and each organisation can have multiple users.
@@ -44,8 +40,8 @@ This project is a User and Organisation Management System built using Django and
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/Goodnessmbakara/django-user-org-management.git
+   cd django-user-org-management
    ```
 
 2. **Create and activate a virtual environment**
