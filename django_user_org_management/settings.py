@@ -46,6 +46,7 @@ INTERNAL_APPS = [
 
 EXTERNAL_APPS = [
     'drf_yasg',
+    'rest_framework'
 ]
 
 USER_DEFINED_APPS = [
