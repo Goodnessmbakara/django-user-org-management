@@ -29,9 +29,9 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG') == 'True'
-
-ALLOWED_HOSTS=["localhost","127.0.0.1"]
+#DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = True
+ALLOWED_HOSTS=["localhost","127.0.0.1", "goodnessmbakara129.pythonanywhere.com"]
 
 
 # Application definition
@@ -106,6 +106,14 @@ DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL)
 }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',  # Or path to database file if desired
+    }
+}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -141,6 +149,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = "staticfiles/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
