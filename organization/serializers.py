@@ -4,7 +4,7 @@ from .models import Organisation
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
-        fields = ['org_id', 'name', 'description']
+        fields = ['orgId', 'name', 'description']
         extra_kwargs = {
-            'org_id': {'read_only': True},
+            'orgId': {'read_only': True},
         }

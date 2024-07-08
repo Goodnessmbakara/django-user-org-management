@@ -42,8 +42,8 @@ This project is a Django REST framework-based application that includes user aut
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/Goodnessmbakara/django-user-org-management.git
+   cd django-user-org-management
    ```
 
 2. **Create and Activate Virtual Environment**
@@ -73,7 +73,7 @@ This project is a Django REST framework-based application that includes user aut
 
 2. **Update Settings**
 
-   Update `your_project/settings.py` to use environment variables:
+   Update `django_user_org_management/settings.py` to use environment variables:
 
    ```python
    import os
@@ -100,7 +100,7 @@ This project is a Django REST framework-based application that includes user aut
        }
    }
 
-   AUTH_USER_MODEL = 'my_app.CustomUser'
+   AUTH_USER_MODEL = 'user.User'
    ```
 
 ## Database Setup
@@ -121,7 +121,7 @@ This project is a Django REST framework-based application that includes user aut
 ## Application Structure
 
 ```
-my_django_project/
+django-user-org-management/
 │
 ├── my_app/
 │   ├── __init__.py
@@ -135,13 +135,13 @@ my_django_project/
 │
 ├── tests/
 │   ├── __init__.py
-│   └── auth.spec.py
+│   └── auth_spec.py
 │
 ├── manage.py
 ├── requirements.txt
 ├── .env
 ├── pytest.ini
-└── your_project/
+└── django_user_org_management/
     ├── __init__.py
     ├── settings.py
     ├── urls.py
@@ -159,8 +159,8 @@ Registers a new user and creates a default organisation.
 **Request Body:**
 ```json
 {
-  "firstName": "string",
-  "lastName": "string",
+  "first_name": "string",
+  "last_name": "string",
   "email": "string",
   "password": "string",
   "phone": "string"
@@ -176,8 +176,8 @@ Registers a new user and creates a default organisation.
         "accessToken": "eyJh...",
         "user": {
             "userId": "string",
-            "firstName": "string",
-            "lastName": "string",
+            "first_name": "string",
+            "last_name": "string",
             "email": "string",
             "phone": "string"
         }
@@ -208,8 +208,8 @@ Logs in a user.
         "accessToken": "eyJh...",
         "user": {
             "userId": "string",
-            "firstName": "string",
-            "lastName": "string",
+            "first_name": "string",
+            "last_name": "string",
             "email": "string",
             "phone": "string"
         }
@@ -230,8 +230,8 @@ Gets a user's own record or user record in organisations they belong to or creat
     "message": "<message>",
     "data": {
         "userId": "string",
-        "firstName": "string",
-        "lastName": "string",
+        "first_name": "string",
+        "last_name": "string",
         "email": "string",
         "phone": "string"
     }
@@ -335,13 +335,13 @@ Adds a user to a particular organisation.
 To run the tests, use the following command:
 
 ```bash
-python manage.py test tests.auth.spec
+python manage.py test tests.test_spec.py
 ```
 
 Or if you are using `pytest`:
 
 ```bash
-pytest tests/auth.spec.py
+pytest tests/test_spec.py
 ```
 
 ### Test Scenarios

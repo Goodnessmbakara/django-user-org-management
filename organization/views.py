@@ -1,9 +1,11 @@
 from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .models import Organisation
-from .serializers import  OrganisationSerializer
+from .serializers import OrganisationSerializer
+
 
 class OrganisationView(APIView):
     permission_classes = [IsAuthenticated]
@@ -16,12 +18,31 @@ class OrganisationView(APIView):
             'message': 'Organisations retrieved successfully',
             'data': {'organisations': serializer.data}
         }, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        serializer = OrganisationSerializer(data=request.data)
+        if serializer.is_valid():
+            organisation = serializer.save()
+            organisation.users.add(request.user)
+            return Response({
+                'status': 'success',
+                'message': 'Organisation created successfully',
+                'data': serializer.data
+            }, status=status.HTTP_201_CREATED)
+        return Response({
+            'status': 'Bad Request',
+            'message': 'Client error',
+            'statusCode': 400,
+            'errors': [
+                {'field': k, 'message': v[0]} for k, v in serializer.errors.items()
+            ]
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 class SingleOrganisationView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, org_id):
-        organisation = Organisation.objects.filter(org_id=org_id, users=request.user).first()
+    def get(self, request, orgId):
+        organisation = Organisation.objects.filter(orgId=orgId, users=request.user).first()
         if organisation:
             serializer = OrganisationSerializer(organisation)
             return Response({
@@ -30,10 +51,10 @@ class SingleOrganisationView(APIView):
                 'data': serializer.data
             }, status=status.HTTP_200_OK)
         return Response({
-            'status': 'Unauthorized',
+            'status': 'Forbidden',
             'message': 'Access denied',
-            'statusCode': 401
-        }, status=status.HTTP_401_UNAUTHORIZED)
+            'statusCode': 403
+        }, status=status.HTTP_403_FORBIDDEN)
 
 class CreateOrganisationView(APIView):
     permission_classes = [IsAuthenticated]
@@ -60,8 +81,8 @@ class CreateOrganisationView(APIView):
 class AddUserToOrganisationView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, org_id):
-        organisation = Organisation.objects.filter(org_id=org_id, users=request.user).first()
+    def post(self, request, orgId):
+        organisation = Organisation.objects.filter(orgId=orgId, users=request.user).first()
         if not organisation:
             return Response({
                 'status': 'Unauthorized',
@@ -69,8 +90,8 @@ class AddUserToOrganisationView(APIView):
                 'statusCode': 401
             }, status=status.HTTP_401_UNAUTHORIZED)
 
-        user_id = request.data.get('userId')
-        user = User.objects.filter(user_id=user_id).first()
+        userId = request.data.get('userId')
+        user = User.objects.filter(userId=userId).first()
         if user:
             organisation.users.add(user)
             return Response({

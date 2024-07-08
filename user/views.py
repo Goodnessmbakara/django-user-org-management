@@ -5,17 +5,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .serializers import UserSerializer
-
+from organization.models import Organisation
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             org_name = f"{user.first_name}'s Organisation"
-            Organisation.objects.create(name=org_name, users=[user])
+            organisation = Organisation.objects.create(name=org_name)
+            organisation.users.set([user])
+            organisation.save()
             refresh = RefreshToken.for_user(user)
             return Response({
                 'status': 'success',
+                'status_code': 201,
                 'message': 'Registration successful',
                 'data': {
                     'accessToken': str(refresh.access_token),
@@ -24,12 +27,12 @@ class RegisterView(APIView):
             }, status=status.HTTP_201_CREATED)
         return Response({
             'status': 'Bad request',
-            'message': 'Registration unsuccessful',
             'statusCode': 400,
+            'message': 'Registration unsuccessful',
             'errors': [
                 {'field': k, 'message': v[0]} for k, v in serializer.errors.items()
             ]
-        }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
     def post(self, request):
@@ -59,8 +62,8 @@ class LoginView(APIView):
 class UserView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, id):
-        user = User.objects.filter(user_id=id).first()
+    def get(self, request, userId):
+        user = User.objects.filter(userId=userId).first()
         if user and (user == request.user or request.user in user.organisations.all()):
             serializer = UserSerializer(user)
             return Response({
