@@ -62,7 +62,7 @@ class LoginView(APIView):
 class UserView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, user_id):
+    def get(self, request, userId):
         user = User.objects.filter(userId=userId).first()
         if user and (user == request.user or request.user in user.organisations.all()):
             serializer = UserSerializer(user)

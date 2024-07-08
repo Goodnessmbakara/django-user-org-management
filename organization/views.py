@@ -54,7 +54,7 @@ class SingleOrganisationView(APIView):
             'status': 'Forbidden',
             'message': 'Access denied',
             'statusCode': 403
-        }, status=status.status.HTTP_403_FORBIDDEN)
+        }, status=status.HTTP_403_FORBIDDEN)
 
 class CreateOrganisationView(APIView):
     permission_classes = [IsAuthenticated]

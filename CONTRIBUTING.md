@@ -44,8 +44,8 @@ If you want to contribute code to the project, follow the steps below to get sta
    Clone your forked repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/Goodnessmbakara/django-user-org-management.git
+   cd django-user-org-management
    ```
 
 3. **Set Up the Development Environment**
@@ -103,7 +103,7 @@ If you want to contribute code to the project, follow the steps below to get sta
    Run the test suite to ensure all tests pass:
 
    ```bash
-   python manage.py test tests
+   python manage.py test 
    ```
 
 4. **Commit Changes**
@@ -169,8 +169,8 @@ If you encounter a bug or have a feature request, please use the following forma
 
 Join our community to discuss the project, ask questions, and collaborate with other contributors:
 
-- [GitHub Issues](https://github.com/your-username/your-repo-name/issues)
-- [Discussions](https://github.com/your-username/your-repo-name/discussions)
+- [GitHub Issues](https://github.com/Goodnessmbakara/django-user-org-management/issues)
+- [Discussions](https://github.com/Goodnessmbakara/django-user-org-management/discussions)
 
 Thank you for contributing to our project! Together, we can make it better.
 

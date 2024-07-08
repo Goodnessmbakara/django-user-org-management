@@ -10,8 +10,8 @@ User = get_user_model()
 class OrganisationTests(APITestCase):
     def setUp(self):        
         self.user1 = User.objects.create_user(
-            firstName="John",
-            lastName="Doe",
+            first_name="John",
+            last_name="Doe",
             email="john.doe@example.com",
             password="password123",
             phone="1234567890"
@@ -23,8 +23,8 @@ class OrganisationTests(APITestCase):
         self.user1.organisations.add(self.organisation1)
 
         self.user2 = User.objects.create_user(
-            firstName="Jane",
-            lastName="Doe",
+            first_name="Jane",
+            last_name="Doe",
             email="jane.doe@example.com",
             password="password123",
             phone="0987654321"
@@ -39,12 +39,14 @@ class OrganisationTests(APITestCase):
         self.refresh2 = RefreshToken.for_user(self.user2)
 
     def test_get_organisations(self):
-        url = reverse('organisation-list')
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.refresh1.access_token))
+        url = reverse('organisations')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['data']['organisations']), 2)
+        self.assertEqual(len(response.data['data']['organisations']), 1)
 
     def test_create_organisation(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.refresh1.access_token))
         url = reverse('create-organisation')
         data = {
             "name": "New Organisation",
@@ -57,12 +59,12 @@ class OrganisationTests(APITestCase):
     def test_user_cannot_access_other_organisation(self):
         # Authenticate as user1
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.refresh1.access_token))
-        response = self.client.get(reverse('organisation-detail', args=[self.organisation2.id]))
+        response = self.client.get(reverse('organisation-detail', args=[self.organisation2.orgId]))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_user_can_access_own_organisation(self):
         # Authenticate as user1
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.refresh1.access_token))
-        response = self.client.get(reverse('organisation-detail', args=[self.organisation1.id]))
+        response = self.client.get(reverse('organisation-detail', args=[self.organisation1.orgId]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['data']['name'], "John's Organisation")
