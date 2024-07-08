@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = os.getenv('DEBUG') == 'True'
 DEBUG = True
-ALLOWED_HOSTS=["localhost","127.0.0.1", "goodnessmbakara129.pythonanywhere.com"]
+ALLOWED_HOSTS=["localhost","127.0.0.1", "goodnessmbakara129.pythonanywhere.com", "app-9ec674df-4208-48c8-b0bd-b5d8d736a0df.cleverapps.io"]
 
 
 # Application definition
@@ -93,7 +93,7 @@ WSGI_APPLICATION = "django_user_org_management.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-DATABASE_URL = 'postgresql://mydatabaseuser:7xT3I2bnCVHL1epqty6sXLimBJCn2GvT@dpg-cq45uceehbks73b7feqg-a.oregon-postgres.render.com/mydatabase_eocc'
+#DATABASE_URL = 'postgresql://mydatabaseuser:7xT3I2bnCVHL1epqty6sXLimBJCn2GvT@dpg-cq45uceehbks73b7feqg-a.oregon-postgres.render.com/mydatabase_eocc'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -104,16 +104,16 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
     }
 }
-DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
-}
+# DATABASES = {
+#     'default': dj_database_url.parse(DATABASE_URL)
+# }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',  # Or path to database file if desired
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',  # Or path to database file if desired
+#     }
+# }
 
 
 # Password validation
