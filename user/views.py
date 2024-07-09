@@ -11,7 +11,7 @@ class RegisterView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            org_name = f"{user.first_name}'s Organisation"
+            org_name = f"{user.firstName}'s Organisation"
             organisation = Organisation.objects.create(name=org_name)
             organisation.users.set([user])
             organisation.save()

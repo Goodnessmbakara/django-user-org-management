@@ -12,21 +12,21 @@ class UserRegistrationTests(APITestCase):
     def test_register_user_successfully_with_default_organisation(self):
         url = reverse('register')
         data = {
-            "first_name": "John",
-            "last_name": "Doe",
+            "firstName": "John",
+            "lastName": "Doe",
             "email": "john.doe@example.com",
             "password": "password123",
             "phone": "1234567890"
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data['data']['user']['first_name'], "John")
-        self.assertIn("Organisation", response.data['data']['user']['first_name'] + "'s Organisation")
+        self.assertEqual(response.data['data']['user']['firstName'], "John")
+        self.assertIn("Organisation", response.data['data']['user']['firstName'] + "'s Organisation")
 
     def test_user_login_successfully(self):
         User.objects.create_user(
-            first_name="John",
-            last_name="Doe",
+            firstName="John",
+            lastName="Doe",
             email="john.doe@example.com",
             password="password123",
             phone="1234567890"
@@ -44,8 +44,8 @@ class UserRegistrationTests(APITestCase):
     def test_missing_required_fields(self):
         url = reverse('register')
         data = {
-            "first_name": "John",
-            "last_name": "",
+            "firstName": "John",
+            "lastName": "",
             "email": "john.doe@example.com",
             "password": "password123",
             "phone": "1234567890"
@@ -56,16 +56,16 @@ class UserRegistrationTests(APITestCase):
 
     def test_duplicate_email(self):
         User.objects.create_user(
-            first_name="John",
-            last_name="Doe",
+            firstName="John",
+            lastName="Doe",
             email="john.doe@example.com",
             password="password123",
             phone="1234567890"
         )
         url = reverse('register')
         data = {
-            "first_name": "Jane",
-            "last_name": "Doe",
+            "firstName": "Jane",
+            "lastName": "Doe",
             "email": "john.doe@example.com",
             "password": "password123",
             "phone": "0987654321"
@@ -77,8 +77,8 @@ class UserRegistrationTests(APITestCase):
 class OrganisationAccessTests(APITestCase):
     def setUp(self):
         self.user1 = User.objects.create_user(
-            first_name="John",
-            last_name="Doe",
+            firstName="John",
+            lastName="Doe",
             email="john.doe@example.com",
             password="password123",
             phone="1234567890"
@@ -90,8 +90,8 @@ class OrganisationAccessTests(APITestCase):
         self.user1.organisations.add(self.organisation1)
 
         self.user2 = User.objects.create_user(
-            first_name="Jane",
-            last_name="Doe",
+            firstName="Jane",
+            lastName="Doe",
             email="jane.doe@example.com",
             password="password123",
             phone="0987654321"
@@ -119,8 +119,8 @@ class OrganisationAccessTests(APITestCase):
 class TokenGenerationTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            first_name="John",
-            last_name="Doe",
+            firstName="John",
+            lastName="Doe",
             email="john.doe@example.com",
             password="password123",
             phone="1234567890"

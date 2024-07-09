@@ -9,8 +9,8 @@ User = get_user_model()
 class TokenGenerationTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            first_name="John",
-            last_name="Doe",
+            firstName="John",
+            lastName="Doe",
             email="john.doe@example.com",
             password="password123",
             phone="1234567890"
@@ -46,8 +46,8 @@ class UserRegistrationTests(APITestCase):
         
         url = reverse('register')
         data = {
-            "first_name": "John",
-            "last_name": "Doe",
+            "firstName": "John",
+            "lastName": "Doe",
             "email": "john.doe@example.com",
             "password": "password123",
             "phone": "1234567890"
@@ -55,14 +55,14 @@ class UserRegistrationTests(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn('accessToken', response.data['data'])
-        self.assertEqual(response.data['data']['user']['first_name'], "John")
-        self.assertEqual(response.data['data']['user']['last_name'], "Doe")
+        self.assertEqual(response.data['data']['user']['firstName'], "John")
+        self.assertEqual(response.data['data']['user']['lastName'], "Doe")
 
     def test_user_registration_missing_fields(self):
         url = reverse('register')
         data = {
-            "first_name": "John",
-            "last_name": "",
+            "firstName": "John",
+            "lastName": "",
             "email": "john.doe@example.com",
             "password": "",
             "phone": "1234567890"
@@ -88,8 +88,8 @@ class UserRegistrationTests(APITestCase):
 class UserLoginTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            first_name="John",
-            last_name="Doe",
+            firstName="John",
+            lastName="Doe",
             email="john.doe@example.com",
             password="password123",
             phone="1234567890"

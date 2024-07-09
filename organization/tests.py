@@ -10,8 +10,8 @@ User = get_user_model()
 class OrganisationTests(APITestCase):
     def setUp(self):        
         self.user1 = User.objects.create_user(
-            first_name="John",
-            last_name="Doe",
+            firstName="John",
+            lastName="Doe",
             email="john.doe@example.com",
             password="password123",
             phone="1234567890"
@@ -23,8 +23,8 @@ class OrganisationTests(APITestCase):
         self.user1.organisations.add(self.organisation1)
 
         self.user2 = User.objects.create_user(
-            first_name="Jane",
-            last_name="Doe",
+            firstName="Jane",
+            lastName="Doe",
             email="jane.doe@example.com",
             password="password123",
             phone="0987654321"
